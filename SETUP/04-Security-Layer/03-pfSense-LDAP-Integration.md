@@ -51,7 +51,7 @@ New-ADUser `
 -SamAccountName "svc_ldap_bind" `
 -UserPrincipalName "svc_ldap_bind@lab.internal" `
 -Path "OU=ServiceAccounts,OU=lab_internal,DC=lab,DC=internal" `
--AccountPassword (ConvertTo-SecureString "Cipher@1" -AsPlainText -Force) `
+-AccountPassword (ConvertTo-SecureString "Password!" -AsPlainText -Force) `
 -Enabled $true `
 -PasswordNeverExpires $true
 ```
@@ -65,7 +65,7 @@ From pfSense shell:
 ```sh
 ldapwhoami -x -H ldap://172.16.1.10 \
 -D "svc_ldap_bind@lab.internal" \
--w Cipher@1
+-w Password!
 ```
 
 Expected output:
@@ -189,7 +189,7 @@ Test user bind:
 ```sh
 ldapwhoami -x -H ldap://172.16.1.10 \
 -D "labanalyst@lab.internal" \
--w Cipher@1
+-w Password!
 ```
 
 Expected:
@@ -251,7 +251,7 @@ Add at least one WebCfg privilege to mapped group.
 ### Test Bind
 
 ```sh
-ldapwhoami -x -H ldap://172.16.1.10 -D "svc_ldap_bind@lab.internal" -w Cipher@1
+ldapwhoami -x -H ldap://172.16.1.10 -D "svc_ldap_bind@lab.internal" -w Password!
 ```
 
 ### Test Search
@@ -259,7 +259,7 @@ ldapwhoami -x -H ldap://172.16.1.10 -D "svc_ldap_bind@lab.internal" -w Cipher@1
 ```sh
 ldapsearch -x -H ldap://172.16.1.10 \
 -D "svc_ldap_bind@lab.internal" \
--w Cipher@1 \
+-w Password! \
 -b "DC=lab,DC=internal" \
 "(sAMAccountName=labanalyst)"
 ```
