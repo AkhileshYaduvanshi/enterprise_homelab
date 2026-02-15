@@ -88,6 +88,8 @@ External Devices:
 
 This lab is built in structured phases.
 
+<img width="1320" height="1237" alt="CIpher drawio-2" src="https://github.com/user-attachments/assets/43518f17-6c41-4834-be52-435570da009f" />
+
 ---
 
 # Continuous Improvement
