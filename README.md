@@ -108,5 +108,5 @@ This lab will evolve to include:
 # Author
 
 Akhilesh  
-Cybersecurity Analyst  
+Cybersecurity Engineer  
 Focused on Detection Engineering, SOC Operations & Infrastructure Security
