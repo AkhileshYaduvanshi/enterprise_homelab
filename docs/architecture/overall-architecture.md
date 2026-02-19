@@ -145,7 +145,3 @@ The lab architecture is built with the following goals:
 - Wazuh Architecture
 - Detection Engineering Workflows
 - Red Team Attack Scenarios
-```
-
----
-
