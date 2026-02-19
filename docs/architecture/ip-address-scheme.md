@@ -37,7 +37,7 @@ This segment represents the external/home environment and WAN connectivity.
 **Note** : All the above mentioed host are alloted static IPs.
 ---
 
-## 🔐 VPN Network – 10.0.0.0/24
+## VPN Network – 10.0.0.0/24
 This segment provides secure remote connectivity into the lab environment.
 
 | Host | IP Address | Notes |
