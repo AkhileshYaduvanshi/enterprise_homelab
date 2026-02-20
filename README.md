@@ -24,7 +24,7 @@ This project demonstrates:
 
 Every phase builds upon the previous one:
 
-Infrastructure → Visibility → Hardening → Attack Simulation → Response
+Infrastructure - Visibility - Hardening - Attack Simulation - Response
 
 ---
 
