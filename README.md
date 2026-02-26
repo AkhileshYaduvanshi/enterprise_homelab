@@ -9,7 +9,7 @@ A full enterprise-style Security Operations lab built on a 16GB RAM system.
 
 This project simulates a real-world organization with identity management, firewall segmentation, SIEM monitoring, containerized services, Kubernetes workloads, CI/CD automation, red team simulations, and incident response workflows.
 
-**Note - This is not a tool installation project - it is a structured security engineering journey.**
+**Note - This is not a tool installation project - it's a structured security engineering journey.**
 
 ## Why This Lab Is Different
 
