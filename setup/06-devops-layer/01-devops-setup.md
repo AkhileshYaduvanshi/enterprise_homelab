@@ -1,14 +1,7 @@
-# DevOps VM Setup (DevSecOps)
-
-## Objective
+# DevOps VM Setup
 
 Deploy a dedicated Ubuntu Server VM to host the DevSecOps infrastructure.
-
----
-
-## VM Configuration
-
-Hypervisor: Proxmox  
+ 
 VM Name: DevSecOps 
 
 | Resource | Value |
@@ -33,16 +26,10 @@ VM Name: DevSecOps
 
 > DNS is pointed to Active Directory to support future domain integration and LDAP authentication.
 
----
 
 ## Network Validation
 
 After installation, connectivity was verified:
-
-### Memory Check
-```bash
-free -h
-````
 
 ### Interface Check
 
@@ -68,10 +55,6 @@ ping 172.16.1.10
 ping 172.16.1.50
 ```
 
-All connectivity tests were successful.
-
----
-
 ## System Update
 
 System packages updated:
@@ -80,21 +63,17 @@ System packages updated:
 sudo apt update && sudo apt upgrade -y
 ```
 
-System rebooted after upgrade.
+Reboot system
 
----
+### Docker Installation
 
-## Docker Installation (Official Repository)
-
-Docker was installed using the official Docker repository:
-
-### Install prerequisites
+Install prerequisites
 
 ```bash
 sudo apt install ca-certificates curl gnupg -y
 ```
 
-### Add Docker GPG key
+Add Docker GPG key
 
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -103,7 +82,7 @@ sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
 
-### Add Docker repository
+Add Docker repository
 
 ```bash
 echo \
@@ -113,7 +92,7 @@ $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
 sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-### Install Docker Engine
+Install Docker Engine
 
 ```bash
 sudo apt update
@@ -123,7 +102,7 @@ docker-buildx-plugin docker-compose-plugin -y
 
 ---
 
-## Docker Validation
+Docker Validation
 
 Verify Docker installation:
 
@@ -145,5 +124,3 @@ Test container execution:
 ```bash
 docker run hello-world
 ```
-
-Docker successfully installed and validated.
