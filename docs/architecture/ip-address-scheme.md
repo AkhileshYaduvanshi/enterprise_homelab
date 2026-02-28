@@ -1,7 +1,6 @@
-# IP Address Scheme – Enterprise Cybersecurity Lab
+# IP Address Scheme 
 
-## Overview
-This document defines the IP addressing structure used across the Enterprise Cybersecurity Lab.  
+The IP addressing structure used across the Enterprise Cybersecurity Lab.  
 The network is segmented to simulate a real corporate environment with clear separation between:
 
 - External/Home Network
@@ -11,9 +10,8 @@ The network is segmented to simulate a real corporate environment with clear sep
 
 The segmentation improves security, monitoring clarity, and attack simulation realism.
 
----
 
-## Network Segments
+### Network Segments
 
 | Segment | CIDR | Purpose |
 |--------|------|---------|
@@ -21,9 +19,7 @@ The segmentation improves security, monitoring clarity, and attack simulation re
 | VPN Network | 10.0.0.0/24 | Secure remote access into lab |
 | Internal Lab Network | 172.16.1.0/24 | Core enterprise services and workloads |
 
----
-
-## Home Network – 192.168.1.0/24
+### Home Network – 192.168.1.0/24
 This segment represents the external/home environment and WAN connectivity.
 
 | Host | IP Address | Notes |
@@ -35,22 +31,14 @@ This segment represents the external/home environment and WAN connectivity.
 | Attacker Machine | 192.168.1.50 | Red team simulation |
 
 **Note** : All the above mentioed host are alloted static IPs.
----
 
-## VPN Network – 10.0.0.0/24
+### VPN Network – 10.0.0.0/24
 This segment provides secure remote connectivity into the lab environment.
 
 | Host | IP Address | Notes |
 |------|-----------|------|
 | OpenVPN Gateway | 10.0.0.1 | pfSense VPN interface |
 | VPN Clients | 10.0.0.x | Remote administrative access |
-
-### 🔎 Purpose
-- Secure remote access
-- Administrative entry point
-- Controlled routing into internal lab
-
----
 
 ## Internal Lab Network – 172.16.1.0/24
 This is the core enterprise segment hosting infrastructure and security services.
@@ -65,27 +53,22 @@ This is the core enterprise segment hosting infrastructure and security services
 | Cluster Node | TBD | Application workloads |
 | Database | TBD | Application backend |
 
----
 
-## Traffic Flow Summary
+### Traffic Flow Summary
 - WAN traffic enters via pfSense WAN
 - VPN users authenticate and access internal network
 - Administrative access enforced through Jump Host
 - Internal hosts forward logs to Wazuh SIEM
 - CI/CD systems interact with cluster workloads
 
----
-
-## Design Considerations
+### Design Considerations
 - Segmented networks for security isolation
 - Predictable static addressing for infrastructure
 - VPN-based administrative access
 - Centralized logging for detection engineering
 - Scalable addressing for future workloads
 
----
-
-## Future Expansion Plan
+### Future Expansion Plan
 Potential future segments:
 
 | Segment | CIDR | Purpose |
@@ -93,5 +76,3 @@ Potential future segments:
 | Management Network | 172.16.2.0/24 | Out-of-band management |
 | DMZ | 172.16.10.0/24 | Internet-facing workloads |
 | Cloud Hybrid | 10.10.0.0/16 | Cloud extension |
-
----
