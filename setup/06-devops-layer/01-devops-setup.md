@@ -12,8 +12,6 @@ VM Name: DevSecOps
 | OS       | Ubuntu Server (LTS) |
 | Network  | Internal Lab Network |
 
----
-
 ## Static Network Configuration
 
 | Setting | Value |
@@ -25,11 +23,6 @@ VM Name: DevSecOps
 | Search Domain | lab.internal |
 
 > DNS is pointed to Active Directory to support future domain integration and LDAP authentication.
-
-
-## Network Validation
-
-After installation, connectivity was verified:
 
 ### Interface Check
 
@@ -55,7 +48,7 @@ ping 172.16.1.10
 ping 172.16.1.50
 ```
 
-## System Update
+### System Update
 
 System packages updated:
 
@@ -99,8 +92,6 @@ sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io \
 docker-buildx-plugin docker-compose-plugin -y
 ```
-
----
 
 Docker Validation
 
