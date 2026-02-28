@@ -29,7 +29,7 @@ lab.internal
 
 ```
 
-## 00_Tier0
+## Tier0
 
 Tier 0 contains the most privileged objects in the domain.
 
@@ -47,7 +47,7 @@ Contains domain controller computer objects.
 ### AdminAccounts
 Contains highly privileged administrative accounts (e.g., domain admins).
 
-## 01_Tier1
+## Tier1
 
 Tier 1 contains server systems and server-level administrators.
 
@@ -66,7 +66,7 @@ Contains domain-joined server systems (e.g., SIEM, Git, CI/CD).
 Contains accounts responsible for managing servers.
 
 
-## 02_Tier2
+## Tier2
 
 Tier 2 contains standard user systems and regular users.
 
