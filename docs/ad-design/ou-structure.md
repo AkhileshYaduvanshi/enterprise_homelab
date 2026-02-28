@@ -12,6 +12,8 @@ The design follows a clean and scalable structure with:
 
 The structure is built to support enterprise-style administration, RBAC, and future expansion.
 
+![Overall Architecture](../../assets/diagrams/ou-arch.png)
+
 ## Root OU Structure
 
 ```
