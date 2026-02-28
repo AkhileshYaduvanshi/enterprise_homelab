@@ -1,39 +1,10 @@
 # Windows Advanced Auditing & Sysmon Deployment
 
-## Overview
-
-This document describes the configuration of:
-
-* Advanced Windows Audit Policy
-* Command-line process logging
-* Sysmon deployment (Server Core compatible)
-* Wazuh agent integration for Sysmon channel
-* Validation of telemetry ingestion
-
 This configuration elevates the lab from basic logging to **DFIR-grade visibility**.
-
----
-
-# Objectives
-
-After completing this configuration, the environment will:
-
-* Log detailed authentication events
-* Capture process creation with full command line
-* Record parent-child process relationships
-* Capture network connections per process
-* Forward Sysmon telemetry to Wazuh archives
-* Enable threat hunting in OpenSearch
-
----
-
-# Advanced Audit Policy Configuration (Domain Controller)
 
 > All commands executed via PowerShell (Administrator)
 
----
-
-## Enable Critical Audit Subcategories
+### Enable Critical Audit Subcategories
 
 ```powershell
 auditpol /set /subcategory:"Process Creation" /success:enable /failure:enable
@@ -49,8 +20,6 @@ auditpol /set /subcategory:"Directory Service Changes" /success:enable /failure:
 auditpol /set /subcategory:"Sensitive Privilege Use" /success:enable /failure:enable
 ```
 
----
-
 ## Verify Configuration
 
 ```powershell
@@ -63,9 +32,7 @@ Confirm:
 * Logon → Success & Failure
 * Sensitive Privilege Use → Enabled
 
----
-
-# Enable Command-Line Logging (Critical for IR)
+Enable Command-Line Logging (Critical for IR)
 
 Without this, Event ID 4688 will NOT contain command line.
 
@@ -79,9 +46,7 @@ Reboot:
 shutdown /r /t 0
 ```
 
----
-
-# Sysmon Installation (Server Core Compatible)
+Sysmon Installation (Server Core Compatible)
 
 ## Create Directory Structure
 
@@ -90,17 +55,13 @@ New-Item -ItemType Directory -Path C:\Tools -Force
 New-Item -ItemType Directory -Path C:\Tools\Sysmon -Force
 ```
 
----
-
-## Download Sysmon
+Download Sysmon
 
 ```powershell
 Invoke-WebRequest -Uri https://download.sysinternals.com/files/Sysmon.zip -OutFile C:\Tools\Sysmon\Sysmon.zip
 ```
 
----
-
-## Extract Sysmon
+Extract Sysmon
 
 ```powershell
 Expand-Archive -Path C:\Tools\Sysmon\Sysmon.zip -DestinationPath C:\Tools\Sysmon -Force
@@ -118,9 +79,7 @@ Expected files:
 * Sysmon.exe
 * EULA.txt
 
----
-
-# Download Production Sysmon Configuration
+Download Production Sysmon Configuration
 
 Using SwiftOnSecurity baseline:
 
@@ -128,9 +87,7 @@ Using SwiftOnSecurity baseline:
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml -OutFile C:\Tools\Sysmon\sysmonconfig.xml
 ```
 
----
-
-# Install Sysmon with Configuration
+Install Sysmon with Configuration
 
 ```powershell
 cd C:\Tools\Sysmon
@@ -143,9 +100,7 @@ Expected output:
 Sysmon installed.
 ```
 
----
-
-## Verify Sysmon Service
+Verify Sysmon Service
 
 ```powershell
 Get-Service Sysmon64
@@ -155,9 +110,7 @@ Status must show:
 
 Running
 
----
-
-# Validate Local Sysmon Logging
+Validate Local Sysmon Logging
 
 Generate test process:
 
@@ -175,9 +128,7 @@ Look for:
 
 * Event ID 1 (Process Creation)
 
----
-
-# Enable Sysmon Channel in Wazuh Agent
+Enable Sysmon Channel in Wazuh Agent
 
 By default, Wazuh does NOT collect Sysmon channel.
 
@@ -198,9 +149,7 @@ Add inside `<ossec_config>`:
 
 Save file.
 
----
-
-## Restart Wazuh Agent
+Restart Wazuh Agent
 
 ```powershell
 Restart-Service Wazuh
@@ -212,9 +161,7 @@ Verify:
 Get-Service Wazuh
 ```
 
----
-
-# Validate Ingestion in Wazuh
+Validate Ingestion in Wazuh
 
 Generate test event again:
 
@@ -239,45 +186,3 @@ win.system.channel : "Microsoft-Windows-Sysmon/Operational"
 
 Expected result:
 Sysmon Event ID 1 entries visible.
-
----
-
-# What This Enables
-
-After configuration, the lab now supports:
-
-* Process tree reconstruction
-* Command-line analysis
-* Lateral movement detection
-* Privilege abuse tracking
-* Network connection per process
-* Behavioral hunting
-
-This forms the foundation for:
-
-* Credential dumping detection
-* Ransomware simulation
-* MITRE ATT&CK mapping
-* Full timeline reconstruction
-
----
-
-# Telemetry Chain Validation
-
-```
-Sysmon
-   ↓
-Windows Event Log
-   ↓
-Wazuh Agent
-   ↓
-Wazuh Manager
-   ↓
-archives.json
-   ↓
-Filebeat
-   ↓
-OpenSearch
-   ↓
-Wazuh Dashboard
-```
