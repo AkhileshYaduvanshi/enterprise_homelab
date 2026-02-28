@@ -1,17 +1,6 @@
 # pfSense LDAP Integration with Active Directory
 
-## Objective
-
 Integrate **pfSense Community Edition** with **Active Directory (lab.internal)** using LDAP authentication.
-
-After this step:
-
-* pfSense authenticates users against AD
-* RBAC is enforced via AD groups
-* No local pfSense users required
-* Centralized identity management is implemented
-
----
 
 Authentication Flow:
 
@@ -25,9 +14,7 @@ User → pfSense Login Page
       → Assign WebGUI Privileges
 ```
 
----
-
-# Environment Details
+### Environment Details
 
 | Component         | Value              |
 | ----------------- | ------------------ |
@@ -37,9 +24,7 @@ User → pfSense Login Page
 | LDAP Port         | 389                |
 | pfSense Version   | 2.8.1-RELEASE      |
 
----
-
-# Step 1 – Create LDAP Bind Service Account (On Domain Controller)
+Step 1 – Create LDAP Bind Service Account (On Domain Controller)
 
 We create a low-privilege account for LDAP bind.
 
@@ -56,9 +41,7 @@ New-ADUser `
 -PasswordNeverExpires $true
 ```
 
----
-
-# Step 2 – Verify LDAP Connectivity from pfSense
+Step 2 – Verify LDAP Connectivity from pfSense
 
 From pfSense shell:
 
@@ -76,7 +59,7 @@ u:LAB\svc_ldap_bind
 
 ---
 
-# ⚙ Step 3 – Configure LDAP Server in pfSense
+Step 3 – Configure LDAP Server in pfSense
 
 Go to:
 
@@ -84,7 +67,7 @@ Go to:
 System → User Manager → Authentication Servers → Add
 ```
 
-## Configuration
+### Configuration
 
 ### General Settings
 
@@ -114,9 +97,6 @@ System → User Manager → Authentication Servers → Add
 | Extended Query            | Unchecked                                                       |
 | Anonymous Bind            | Unchecked                                                       |
 
----
-
-# ⚠ Critical Lesson Learned
 
 Simple LDAP bind does **NOT reliably support**:
 
@@ -132,9 +112,7 @@ user@domain
 
 or full Distinguished Name.
 
----
-
-# Step 4 – Set LDAP as Default Authentication Server
+Step 4 – Set LDAP as Default Authentication Server
 
 Go to:
 
@@ -150,9 +128,7 @@ Authentication Server = Lab-AD-Ldap
 
 Save.
 
----
-
-# Step 5 – Create pfSense Local Groups for RBAC
+Step 5 – Create pfSense Local Groups for RBAC
 
 Go to:
 
@@ -162,15 +138,13 @@ System → User Manager → Groups
 
 ---
 
-## Create pfSense_Admin
+Create pfSense_Admin
 
 * Scope: Local
 * Remote Groups: `pfSense_Admin`
 * Privileges: `WebCfg - All pages`
 
----
-
-## Create pfSense_Analyst
+Create pfSense_Analyst
 
 * Scope: Local
 * Remote Groups: `pfSense_Analyst`
@@ -180,9 +154,7 @@ System → User Manager → Groups
   * Diagnostics pages
   * Status pages
 
----
-
-# Step 6 – Test User Authentication from pfSense Shell
+Step 6 – Test User Authentication from pfSense Shell
 
 Test user bind:
 
@@ -200,7 +172,7 @@ u:LAB\labanalyst
 
 ---
 
-# Final Login Format (CRITICAL)
+Final Login Format
 
 Login must use UPN format:
 
@@ -216,22 +188,7 @@ labanalyst
 
 Because pfSense performs user bind using supplied username.
 
----
 
-# Troubleshooting Section
-
-## Problem: Username or Password incorrect
-
-### Possible Causes
-
-* Wrong Bind DN format
-* Wrong User Naming Attribute (must be `sAMAccountName`)
-* Wrong Authentication Container
-* Password incorrect
-* Using `DOMAIN\username` format
-* Logging in without UPN format
-
----
 
 ## Problem: No page assigned to this user
 
@@ -269,14 +226,3 @@ ldapsearch -x -H ldap://172.16.1.10 \
 ```sh
 tail -f /var/log/auth.log
 ```
-
----
-
-# Result
-
-After successful configuration:
-
-* pfSense uses centralized AD authentication
-* User access controlled by AD group membership
-* No local pfSense users required
-* Clean RBAC implementation achieved
